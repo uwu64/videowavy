@@ -75,7 +75,7 @@ if (hPxOutBound) begin
 			if (secsBound) begin 
 				secs_daisuki = 0;
 			end else 
-				secs_daisuki = secs_daisuki + 1;
+				secs_daisuki = secs_daisuki + 1; // this is like a really stupid way of getting  "time elapsed" but it works for now 
 		end else 
 			konnichiwa = konnichiwa + 1;
 	end else 
