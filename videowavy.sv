@@ -1,23 +1,4 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 03/26/2021 12:23:45 PM
-// Design Name: 
-// Module Name: videowavy
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
 
 module videowavy(
 	input extclk,
@@ -131,6 +112,7 @@ assign vg = (greenn && imageValid);
 assign vb = (bluee && imageValid);
 
 // image generation
+// some of these don't work lol - at least the color bars look good 
 
 always @ (posedge pxClock) begin
 	case (secs_daisuki)
@@ -162,83 +144,4 @@ always @ (posedge pxClock) begin
 	endcase 
 end
 
-
-
-
-/* take 1 this shit didnt work lmao 
-
-`define hPxBackP 48 
-`define hPxActive 640
-`define hPxFrontP 16
-`define hPxSync 2
-
-`define vPxBackP 33 
-`define vPxActive 480
-`define vPxFrontP 10
-`define vPxSync 2
-
-reg [15:0] hPos;
-reg [15:0] vPos;
-
-reg [15:0] hImage;
-reg [15:0] vImage;
-
-wire localPxClk = extclk; // pixel clock 25.175 MHz 
-
-wire hBlankingActive = ((hPos <= `hPxBackP) || (hPos > `hPxBackP+`hPxActive)); // active during horizontal blanking 
-wire vBlankingActive = ((hPos <= `vPxBackP) || (hPos > `vPxBackP+`vPxActive)); // active during vertical blanking 
-
-wire hImageActive = ((vPos > `vPxBackP) || (vPos <= `vPxBackP+`vPxActive)); // active during horizontal image 
-wire vImageActive = ((hPos > `vPxBackP) || (hPos <= `vPxBackP+`vPxActive)); // active during vertical image 
-
-wire hSyncActive = (hPos > (`hPxBackP+`hPxActive+`hPxFrontP)); // active after beginning of sync 
-wire vSyncActive = (vPos > (`vPxBackP+`vPxActive+`vPxFrontP)); 
-
-wire hOutBound = (hPos > (`hPxBackP+`hPxActive+`hPxFrontP+`hPxSync)); // active past horizontal line 
-wire vOutBound = (vPos > (`vPxBackP+`vPxActive+`vPxFrontP+`vPxSync)); // active past vertical line 
-
-wire hImageInBound = (hPos > (`hPxBackP) && hPos < (`hPxBackP+`hPxActive)); // active during horizontal image 
-wire vImageInBound = (vPos > (`vPxBackP) && vPos < (`vPxBackP+`vPxActive)); // active during vertical image 
-
-always @ (posedge localPxClk) // horizontal position bound and vertical increment and horizontal increment 
-if (hOutBound) begin
-	hPos = 0;
-	vPos = vPos + 1;
-end else 
-	hPos = hPos + 1; 
-
-always @ (posedge localPxClk) if (vOutBound) vPos = 0; // vertical position bound 
-
-always @ (posedge localPxClk) if (hImageInBound) hImage = hImage + 1; // horizontal image increment 
-always @ (posedge localPxClk) if (hImage>`hPxActive) begin hImage = 0; vImage = vImage + 1; end // horizontal image bound and vertical increment 
-
-assign hs = ~hSyncActive; // output sync, active low 
-assign vs = ~vSyncActive; 
-
-// image generation
-
-assign vg = (hImage < 100);
-
-*/
-
-
-
-
-
-
-
-
-
 endmodule
-
-
-
-
-
-
-
-
-
-
-
-
